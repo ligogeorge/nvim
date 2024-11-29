@@ -6,12 +6,15 @@
 local M = {}
 
 M.base46 = {
-	theme = "onedark",
+	theme = "monochrome",
 
 	-- hl_override = {
 	-- 	Comment = { italic = true },
 	-- 	["@comment"] = { italic = true },
 	-- },
 }
+
+-- Set Bash as the default shell
+vim.opt.shell = "/bin/bash"
 
 return M
