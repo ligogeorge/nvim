@@ -7,3 +7,9 @@
 # Credits
 
 1) Lazyvim starter https://github.com/LazyVim/starter as nvchad's starter was inspired by Lazyvim's . It made a lot of things easier!
+
+# sudo apt-get update
+# sudo apt-get install -y luarocks
+# sudo luarocks install luacheck
+# pip install -U pre-commit
+# pip install -U commitizen
