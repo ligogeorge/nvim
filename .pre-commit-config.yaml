@@ -1,0 +1,34 @@
+repos:
+    - repo: https://github.com/commitizen-tools/commitizen
+      rev: v3.31.0
+      hooks:
+          - id: commitizen
+
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: check-added-large-files
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-case-conflict
+
+    - repo: local
+      hooks:
+          - id: luacheck
+            name: luacheck
+            language: system
+            types: [lua]
+            entry: luacheck
+            args: [--globals, vim, --filename]
+            files: \.lua$
+
+    - repo: https://github.com/JohnnyMorganz/StyLua
+      rev: v2.0.1
+      hooks:
+          - id: stylua-github
+            args:
+              - --indent-type
+              - Spaces
+              - --indent-width
+              - "4"
+            files: \.lua$
