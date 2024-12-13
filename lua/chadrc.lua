@@ -5,13 +5,9 @@
 ---@type ChadrcConfig
 local M = {}
 
-M.base46 = {
-    theme = "monochrome",
-
-    -- hl_override = {
-    -- 	Comment = { italic = true },
-    -- 	["@comment"] = { italic = true },
-    -- },
+-- UI Settings (Theme Configuration)
+M.ui = {
+    theme = "monochrome", -- This theme is working fine, no changes needed here
 }
 
 -- Set Bash as the default shell
