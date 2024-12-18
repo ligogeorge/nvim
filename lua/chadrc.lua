@@ -5,12 +5,8 @@
 ---@type ChadrcConfig
 local M = {}
 
--- UI Settings (Theme Configuration)
-M.ui = {
-    theme = "monochrome", -- This theme is working fine, no changes needed here
+M.base46 = {
+	theme = "vscode_dark",
 }
-
--- Set Bash as the default shell
-vim.opt.shell = "/bin/bash"
 
 return M
