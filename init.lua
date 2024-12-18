@@ -28,12 +28,35 @@ require("lazy").setup({
 }, lazy_config)
 
 require("CopilotChat").setup {}
--- load theme
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "nvchad.autocmds"
+
+require("toggleterm").setup{
+    -- Add your configuration options here
+    size = 20,
+    open_mapping = [[<c-\>]],
+    hide_numbers = true,
+    shade_filetypes = {},
+    shade_terminals = true,
+    shading_factor = 2,
+    start_in_insert = true,
+    insert_mappings = true,
+    persist_size = true,
+    direction = 'horizontal',
+    close_on_exit = true,
+    shell = vim.o.shell,
+    float_opts = {
+        border = 'curved',
+        winblend = 3,
+        highlights = {
+            border = "Normal",
+            background = "Normal",
+        },
+    },
+}
 
 vim.schedule(function()
     require "mappings"

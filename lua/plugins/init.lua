@@ -43,6 +43,12 @@ local plugins = {
     },
 
     {
+        "akinsho/toggleterm.nvim", 
+        version = "2.13.0",
+        config = true
+    },
+
+    {
         "voldikss/vim-floaterm",
         cmd = { "FloatermNew", "FloatermToggle" },
         keys = {
