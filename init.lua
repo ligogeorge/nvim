@@ -2,6 +2,7 @@ vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
 vim.opt.number = true -- Show absolute line number on the current line
 vim.opt.relativenumber = true -- Enable relative line numbers for other lines
+vim.opt.shell = "/bin/bash"
 
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
