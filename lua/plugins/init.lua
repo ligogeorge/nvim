@@ -16,16 +16,16 @@ local plugins = {
     },
 
     {
-        'rmagatti/auto-session',
+        "rmagatti/auto-session",
         lazy = false,
 
         ---enables autocomplete for opts
         ---@module "auto-session"
         ---@type AutoSession.Config
         opts = {
-          suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
-          -- log_level = 'debug',
-        }
+            suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+            -- log_level = 'debug',
+        },
     },
 
     {
@@ -57,14 +57,14 @@ local plugins = {
             { "hrsh7th/cmp-buffer" },
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
-            { "zbirenbaum/copilot-cmp" }
+            { "zbirenbaum/copilot-cmp" },
         },
     },
 
     {
-        "akinsho/toggleterm.nvim", 
+        "akinsho/toggleterm.nvim",
         version = "2.13.0",
-        config = true
+        config = true,
     },
 
     {
