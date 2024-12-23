@@ -14,7 +14,7 @@ repos:
             language: system
             types: [lua]
             entry: luacheck
-            args: [--globals, vim, --filename, $FILENAME]
+            args: [--globals, vim, --]
             files: \.lua$
 
     - repo: https://github.com/JohnnyMorganz/StyLua
