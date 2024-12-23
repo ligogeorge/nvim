@@ -38,7 +38,7 @@ local plugins = {
         "CopilotC-Nvim/CopilotChat.nvim",
         branch = "main",
         dependencies = {
-            { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+            { "zbirenbaum/copilot.lua" },
             { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
         },
         build = "make tiktoken", -- Only on MacOS or Linux
@@ -46,6 +46,19 @@ local plugins = {
             -- See Configuration section for options
         },
         -- See Commands section for default commands if you want to lazy load on them
+    },
+
+    {
+        "hrsh7th/nvim-cmp",
+        branch = "main",
+        dependencies = {
+            { "neovim/nvim-lspconfig" },
+            { "hrsh7th/cmp-nvim-lsp" },
+            { "hrsh7th/cmp-buffer" },
+            { "hrsh7th/cmp-path" },
+            { "hrsh7th/cmp-cmdline" },
+            { "zbirenbaum/copilot-cmp" }
+        },
     },
 
     {
