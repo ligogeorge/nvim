@@ -46,12 +46,16 @@ end
 
 local cmp = require "cmp"
 cmp.setup {
+    completion = {
+        completeopt = "menu,menuone,noselect",
+        keyword_length = 1,
+    },
     sources = {
-        { name = "copilot", group_index = 2 },
-        { name = "nvim_lsp", group_index = 2 },
-        { name = "buffer", group_index = 2 },
-        { name = "path", group_index = 2 },
-        { name = "cmdline", group_index = 2 },
+        { name = "copilot", group_index = 2, max_item_count = 5 },
+        { name = "nvim_lsp", group_index = 2, max_item_count = 5 },
+        { name = "buffer", group_index = 2, max_item_count = 5 },
+        { name = "path", group_index = 2, max_item_count = 5 },
+        { name = "cmdline", group_index = 2, max_item_count = 5 },
     },
     mapping = {
         ["<Tab>"] = vim.schedule_wrap(function(fallback)
@@ -61,6 +65,7 @@ cmp.setup {
                 fallback()
             end
         end),
+        ["<CR>"] = cmp.mapping.confirm { select = false },
         ["<Esc>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.close()
