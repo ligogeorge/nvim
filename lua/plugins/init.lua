@@ -79,6 +79,11 @@ local plugins = {
         ]]
         end,
     },
+
+    {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
 }
 
 -- Merge project-specific plugins
