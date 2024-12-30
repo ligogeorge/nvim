@@ -43,12 +43,14 @@ local function jump_to_location_from_terminal()
             file = vim.fn.getcwd() .. "/" .. file
         end
 
-        -- Switch to the main editor window
-        vim.cmd "wincmd w"
+        -- Move to the main window
+        vim.cmd "wincmd l" -- Move to the right window (assuming the file tree is on the left)
+        vim.cmd "wincmd k" -- Move to the top window (assuming this is the main editor)
 
         -- Open the file and jump to the specified line and column
-        vim.cmd(string.format("edit %s", file))
+        vim.cmd(string.format("buffer %s", file))
         vim.api.nvim_win_set_cursor(0, { tonumber(row), tonumber(col) - 1 })
+        vim.cmd "normal! zz" -- Center the cursor vertically
     else
         print "No valid file:row:column found in the current line"
     end
@@ -70,9 +72,53 @@ end, { desc = "Live grep selected text with Telescope" })
 
 map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "telescope search document symbols" })
 map("n", "<leader>fg", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope search current buffer" })
+map({ "n", "v" }, "<leader>cc", "<cmd>CopilotChat<CR>", { desc = "Open Copilot Chat" })
+map({ "n", "v" }, "<leader>ce", "<cmd>CopilotChatExplain<CR>", { desc = "Explain Copilot Chat" })
 
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 map("n", "n", "nzz", { desc = "Move to next search item and center" })
 map("n", "N", "Nzz", { desc = "Move to previous search item and center" })
+
+-- Keep selection after indenting in visual mode
+vim.cmd [[
+    vnoremap < <gv
+    vnoremap > >gv
+]]
+
+local opts = { noremap = true, silent = true }
+
+-- Function to switch to the n+1th buffer
+_G.switch_to_buffer = function(n)
+    local target_buffer = n + 1
+    if vim.fn.bufexists(target_buffer) == 1 then
+        vim.cmd("buffer " .. target_buffer)
+    else
+        print("Buffer " .. target_buffer .. " does not exist")
+    end
+end
+
+-- Create mappings for <leader>a to <leader>t (20 mappings)
+local keys = "abcdefghijklmnopqrstuvwxyz"
+for i = 1, 26 do
+    local key = keys:sub(i, i)
+    map("n", "<leader>s" .. key, ":lua switch_to_buffer(" .. i .. ")<CR>", opts)
+end
+
+-- LSP mappings with cursor centering
+map(
+    "n",
+    "gd",
+    "<cmd>lua vim.lsp.buf.definition()<CR><cmd>lua vim.defer_fn(function() vim.cmd('normal! zz') end, 100)<CR>",
+    opts
+)
+map(
+    "n",
+    "gr",
+    "<cmd>lua vim.lsp.buf.references()<CR><cmd>lua vim.defer_fn(function() vim.cmd('normal! zz') end, 100)<CR>",
+    opts
+)
+
+-- Shortcut for insert mode: Ctrl + Backspace to delete an entire word
+vim.keymap.set("i", "<C-H>", "<C-W>", { noremap = true, silent = true })

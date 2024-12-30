@@ -38,18 +38,10 @@ require("copilot").setup {
 require("copilot_cmp").setup()
 require("CopilotChat").setup()
 
-local has_words_before = function()
-    if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
-        return false
-    end
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match "^%s*$" == nil
-end
-
 local cmp = require "cmp"
 cmp.setup {
     completion = {
-        completeopt = "menu,menuone,noselect",
+        completeopt = "menu,menuone,noinsert,noselect",
         keyword_length = 1,
     },
     sources = {
@@ -61,7 +53,7 @@ cmp.setup {
     },
     mapping = {
         ["<Tab>"] = vim.schedule_wrap(function(fallback)
-            if cmp.visible() and has_words_before() then
+            if cmp.visible() then
                 cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
             else
                 fallback()
@@ -71,6 +63,7 @@ cmp.setup {
         ["<Esc>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.close()
+                vim.cmd "stopinsert"
             else
                 fallback()
             end
@@ -128,12 +121,6 @@ vim.api.nvim_create_autocmd("TextChanged", {
         end
     end,
 })
-
-vim.o.smartindent = true
-vim.o.autoindent = true
-vim.o.expandtab = true -- Converts tabs to spaces
-vim.o.shiftwidth = 4 -- Number of spaces for each indentation level
-vim.o.tabstop = 4 -- Number of spaces a tab counts for
 
 require("lualine").setup {
     options = {
@@ -196,12 +183,57 @@ require("lualine").setup {
                     active = "lualine_a_normal",
                     inactive = "lualine_a_inactive",
                 },
+                fmt = function(name, context)
+                    local index = context.bufnr - 2
+                    local letter = ""
+                    if index < 26 then
+                        letter = string.char(97 + index) -- Convert index to letter (a, b, c, ...)
+                    end
+                    return string.format("%s %s", letter, name)
+                end,
+                max_length = vim.o.columns,
             },
-        }, -- Show open buffers in the tabline
+        },
         lualine_b = {},
         lualine_c = {},
         lualine_x = {},
         lualine_y = {},
-        lualine_z = { "tabs" }, -- Show tabs at the far right
+        lualine_z = {
+            function()
+                return vim.api.nvim_get_current_buf() - 1
+            end,
+        }, -- Show tabs at the far right
+    },
+}
+
+local actions = require "telescope.actions"
+local action_state = require "telescope.actions.state"
+
+local function open_in_main_editor(prompt_bufnr)
+    local entry = action_state.get_selected_entry()
+    actions.close(prompt_bufnr)
+
+    -- Move to the main window
+    vim.cmd "wincmd l" -- Move to the right window (assuming the file tree is on the left)
+    vim.cmd "wincmd k" -- Move to the top window (assuming this is the main editor)
+
+    -- Open the file in the specified window
+    vim.cmd(string.format("edit %s", entry.path))
+    if entry.lnum and entry.col then
+        vim.api.nvim_win_set_cursor(0, { entry.lnum, entry.col - 1 })
+    end
+    vim.cmd "normal! zz" -- Center the cursor vertically
+end
+
+require("telescope").setup {
+    defaults = {
+        mappings = {
+            i = {
+                ["<CR>"] = open_in_main_editor, -- Override the default action for Enter key
+            },
+            n = {
+                ["<CR>"] = open_in_main_editor, -- Override the default action for Enter key
+            },
+        },
     },
 }
