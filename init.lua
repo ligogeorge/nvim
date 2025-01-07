@@ -237,3 +237,43 @@ require("telescope").setup {
         },
     },
 }
+
+-- Add a shortcut to open and focus the Neotest summary window
+vim.keymap.set("n", "<leader>us", function()
+    -- Open the Neotest summary
+    vim.cmd "Neotest summary"
+
+    -- Focus the Neotest summary window
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "neotest-summary" then
+            vim.api.nvim_set_current_win(win)
+            return
+        end
+    end
+    print "Neotest summary window not found!"
+end, { noremap = true, silent = true, desc = "Open and Focus Neotest Summary" })
+
+-- Add a shortcut to open and focus the Neotest summary window
+vim.keymap.set("n", "<leader>us", function()
+    -- Open the Neotest summary
+    vim.cmd "Neotest summary"
+
+    -- Focus the Neotest summary window
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "neotest-summary" then
+            vim.api.nvim_set_current_win(win)
+            return
+        end
+    end
+    print "Neotest summary window not found!"
+end, { noremap = true, silent = true, desc = "Open and Focus Neotest Summary" })
+
+vim.keymap.set("n", "<leader>ur", function()
+    vim.cmd "Neotest run"
+end, { noremap = true, silent = true, desc = "Run Neotest" })
+
+vim.keymap.set("n", "<leader>uo", function()
+    vim.cmd "Neotest output"
+end, { noremap = true, silent = true, desc = "View Neotest Output" })
