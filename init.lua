@@ -225,15 +225,24 @@ local function open_in_main_editor(prompt_bufnr)
     vim.cmd "normal! zz" -- Center the cursor vertically
 end
 
-require("telescope").setup {
+require('telescope').setup {
     defaults = {
         mappings = {
             i = {
-                ["<CR>"] = open_in_main_editor, -- Override the default action for Enter key
+                ["<CR>"] = actions.select_default + actions.center,
             },
             n = {
-                ["<CR>"] = open_in_main_editor, -- Override the default action for Enter key
+                ["<CR>"] = actions.select_default + actions.center,
             },
+        },
+    },
+    pickers = {
+        find_files = {
+            attach_mappings = function(_, map)
+                map('i', '<CR>', open_in_main_editor)
+                map('n', '<CR>', open_in_main_editor)
+                return true
+            end
         },
     },
 }
