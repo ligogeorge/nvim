@@ -72,6 +72,7 @@ end, { desc = "Live grep selected text with Telescope" })
 
 map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "telescope search document symbols" })
 map("n", "<leader>fg", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope search current buffer" })
+map("n", "<leader>fj", "<cmd>Telescope jumplist<CR>", { desc = "telescope view jumplist" })
 map({ "n", "v" }, "<leader>cc", "<cmd>CopilotChat<CR>", { desc = "Open Copilot Chat" })
 map({ "n", "v" }, "<leader>ce", "<cmd>CopilotChatExplain<CR>", { desc = "Explain Copilot Chat" })
 

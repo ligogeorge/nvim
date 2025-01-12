@@ -277,3 +277,5 @@ end, { noremap = true, silent = true, desc = "Run Neotest" })
 vim.keymap.set("n", "<leader>uo", function()
     vim.cmd "Neotest output"
 end, { noremap = true, silent = true, desc = "View Neotest Output" })
+
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
