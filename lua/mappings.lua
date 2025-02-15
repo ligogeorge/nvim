@@ -124,7 +124,7 @@ map(
 -- Shortcut for insert mode: Ctrl + Backspace to delete an entire word
 map("i", "<C-H>", "<C-W>", opts)
 
-map("t", "<Esc>", "<C-\\><C-n>", opts) -- Escape from terminal mode
+map("t", "<C-q>", "<C-\\><C-n>", opts) -- Escape from terminal mode
 
 -- Move lines up and down in normal and visual mode
 map("n", "<A-j>", ":m .+1<CR>==", opts)
