@@ -35,17 +35,45 @@ local plugins = {
     },
 
     {
-        "CopilotC-Nvim/CopilotChat.nvim",
-        branch = "main",
-        dependencies = {
-            { "zbirenbaum/copilot.lua" },
-            { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-        },
-        build = "make tiktoken", -- Only on MacOS or Linux
+        "yetone/avante.nvim",
+        event = "VeryLazy",
+        version = false,
         opts = {
-            -- See Configuration section for options
+            provider = "copilot",
         },
-        -- See Commands section for default commands if you want to lazy load on them
+        build = "make",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "stevearc/dressing.nvim",
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+            "nvim-telescope/telescope.nvim",
+            "hrsh7th/nvim-cmp",
+            "nvim-tree/nvim-web-devicons",
+            "zbirenbaum/copilot.lua",
+            {
+                -- support for image pasting
+                "HakonHarnes/img-clip.nvim",
+                event = "VeryLazy",
+                opts = {
+                    default = {
+                        embed_image_as_base64 = false,
+                        prompt_for_file_name = false,
+                        drag_and_drop = {
+                            insert_mode = true,
+                        },
+                    },
+                },
+            },
+            {
+                -- Make sure to set this up properly if you have lazy=true
+                "MeanderingProgrammer/render-markdown.nvim",
+                opts = {
+                    file_types = { "markdown", "Avante" },
+                },
+                ft = { "markdown", "Avante" },
+            },
+        },
     },
 
     {
@@ -57,7 +85,6 @@ local plugins = {
             { "hrsh7th/cmp-buffer" },
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
-            { "zbirenbaum/copilot-cmp" },
         },
     },
 

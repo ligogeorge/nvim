@@ -30,14 +30,6 @@ require("lazy").setup({
     { import = "plugins" },
 }, lazy_config)
 
-require("copilot").setup {
-    suggestion = { enabled = false },
-    panel = { enabled = false },
-}
-
-require("copilot_cmp").setup()
-require("CopilotChat").setup()
-
 local cmp = require "cmp"
 cmp.setup {
     completion = {
@@ -45,11 +37,10 @@ cmp.setup {
         keyword_length = 1,
     },
     sources = {
-        { name = "copilot", group_index = 2, max_item_count = 5 },
-        { name = "nvim_lsp", group_index = 2, max_item_count = 5 },
-        { name = "buffer", group_index = 2, max_item_count = 5 },
-        { name = "path", group_index = 2, max_item_count = 5 },
-        { name = "cmdline", group_index = 2, max_item_count = 5 },
+        { name = "nvim_lsp", group_index = 1, max_item_count = 5 },
+        { name = "buffer", group_index = 1, max_item_count = 5 },
+        { name = "path", group_index = 1, max_item_count = 5 },
+        { name = "cmdline", group_index = 1, max_item_count = 5 },
     },
     mapping = {
         ["<Tab>"] = vim.schedule_wrap(function(fallback)
@@ -59,7 +50,13 @@ cmp.setup {
                 fallback()
             end
         end),
-        ["<CR>"] = cmp.mapping.confirm { select = false },
+        ["<CR>"] = cmp.mapping(function(fallback)
+            if cmp.get_selected_entry() then
+                cmp.confirm { select = false } -- Confirm only if an item is explicitly selected
+            else
+                fallback() -- Insert a new line if no item is selected
+            end
+        end, { "i", "s" }),
         ["<Esc>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.close()
@@ -225,7 +222,7 @@ local function open_in_main_editor(prompt_bufnr)
     vim.cmd "normal! zz" -- Center the cursor vertically
 end
 
-require('telescope').setup {
+require("telescope").setup {
     defaults = {
         mappings = {
             i = {
@@ -239,10 +236,10 @@ require('telescope').setup {
     pickers = {
         find_files = {
             attach_mappings = function(_, map)
-                map('i', '<CR>', open_in_main_editor)
-                map('n', '<CR>', open_in_main_editor)
+                map("i", "<CR>", open_in_main_editor)
+                map("n", "<CR>", open_in_main_editor)
                 return true
-            end
+            end,
         },
     },
 }
